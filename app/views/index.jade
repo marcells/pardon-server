@@ -5,13 +5,12 @@ block scripts
     script(src="/javascripts/app.js")
 
 block content
-    .row
-        .col-xs-12
-            .row
-                .col-xs-4
-                    | User 1
-                .col-xs-8
-                    | Lorem ipsum
-    .row
-        .col-xs-12
-            textarea#message(placeholder="Write message and press Enter to send...")
+    div(ng-controller='ChatController as chat')
+        .row
+            .col-xs-12(ng-repeat='message in chat.messages')
+                .row
+                    .col-xs-4 {{message.user}}
+                    .col-xs-8 {{message.text}}
+        .row
+            .col-xs-12
+                textarea(ng-model='chat.message', pardon-enter='send()', placeholder="Write message and press Ctrl+Enter to send...")
