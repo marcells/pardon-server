@@ -6,11 +6,15 @@ block scripts
 
 block content
     div(ng-controller='ChatController as chat')
-        .row
-            .col-xs-12(ng-repeat='message in chat.messages')
+        .container-fluid
+            .row
+                .col-xs-12(ng-repeat='message in chat.messages')
+                    .row
+                        .col-xs-4 {{message.user}}
+                        .col-xs-8 {{message.text}}
+
+        .footer.navbar-default.navbar-fixed-bottom
+            .container-fluid
                 .row
-                    .col-xs-4 {{message.user}}
-                    .col-xs-8 {{message.text}}
-        .row
-            .col-xs-12
-                textarea(ng-model='chat.message', pardon-enter='send()', placeholder="Write message and press Ctrl+Enter to send...")
+                    .col-xs-12
+                        textarea(elastic, ng-model='chat.message', pardon-enter='send()', placeholder="Write message and press Ctrl+Enter to send...")

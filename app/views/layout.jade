@@ -21,7 +21,7 @@ html(ng-app='pardonApp')
 
         block scripts
     body
-        nav.navbar.navbar-default(role='navigation')
+        .navbar.navbar-default.navbar-fixed-top(role='navigation')
             .container-fluid
                 .navbar-header
                     button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='.navbar-collapse')
@@ -35,5 +35,4 @@ html(ng-app='pardonApp')
                         li
                             a(href='#') Login
 
-        .container-fluid
-            block content
+        block content
