@@ -21,24 +21,22 @@ app.locals.pretty = true;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var expressSession = session({ 
+app.use(session({
     store: new NeDBSessionStore({
         filename: path.join(__dirname, '..', 'data', 'session.nedb')
     }),
     secret: 'keyboard cat',
     saveUninitialized: true,
     resave: true
-});
+}));
 
-app.use(expressSession);
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -128,19 +126,13 @@ app.set('port', process.env.PORT || 3000);
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-io.use(function (socket, next) {
-    expressSession(socket.request, { }, next);
-});
-
 io.on('connection', function (socket) {
     socket.on('send', function (data) {
-        if (socket.request.session 
-            && socket.request.session.passport
-            && socket.request.session.passport.user
-            && socket.request.session.passport.user.userName)
+        console.log(app.locals.userName);
+        if (app.locals.user && app.locals.user.userName)
         {
             var outgoing = {
-                user: socket.request.session.passport.user.userName,
+                user: app.locals.user.userName,
                 message: data.message
             };
 
