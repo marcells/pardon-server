@@ -8,6 +8,7 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     usersRepo = require('./users');
 var session = require('express-session');
+var flash = require('connect-flash');
 
 var routes = require('./routes/index');
 
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var expressSession = session({ secret: 'keyboard cat' });
 
 app.use(expressSession);
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,7 +72,7 @@ app.post('/login',
         'local', { 
             successRedirect: '/',
             failureRedirect: '/login',
-            failureFlash: false })
+            failureFlash: true })
 );
 /***********************************************/
 

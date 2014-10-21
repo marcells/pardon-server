@@ -6,7 +6,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/login', function (req, res) {
-    res.render('login');
+    loginNotSuccessful = req.flash('error').length > 0;
+    res.render('login', {
+        loginNotSuccessful: loginNotSuccessful
+    });
 });
 
 module.exports = router;
