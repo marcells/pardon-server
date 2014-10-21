@@ -43,6 +43,11 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function (req, res, next) {
+    app.locals.user = req.user;
+    next();
+});
+
 app.use('/', routes);
 
 /***********************************************/
