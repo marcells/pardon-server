@@ -9,6 +9,7 @@ var passport = require('passport'),
     usersRepo = require('./users');
 var session = require('express-session');
 var flash = require('connect-flash');
+var NeDBSessionStore = require('./services/nedb-session-store')(session);
 
 var routes = require('./routes/index');
 
@@ -28,7 +29,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var expressSession = session({ secret: 'keyboard cat' });
+var expressSession = session({ 
+    store: new NeDBSessionStore({
+        filename: path.join(__dirname, '..', 'data', 'session.nedb')
+    }),
+    secret: 'keyboard cat',
+    saveUninitialized: true,
+    resave: true
+});
 
 app.use(expressSession);
 app.use(flash());
