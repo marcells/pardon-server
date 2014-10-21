@@ -41,18 +41,18 @@ pardonApp.controller('ChatController', function ($scope) {
 
     var socket = io.connect('http://localhost:3000');
     
-    socket.on('recieve', function (data) {
+    socket.on('receive', function (data) {
         $scope.$apply(function () {
             that.messages.push({ 
-                user : 'foreign', 
-                text : data.message
+                user : data.user,
+                message : data.message
             });
         });
     });
 
     that.messages = [
-        {'user': 'User 1', 'text': 'Lorem impsum...'},
-        {'user': 'User 2', 'text': 'Lorem impsum dolor?'}
+        {'user': 'User 1', 'message': 'Lorem impsum...'},
+        {'user': 'User 2', 'message': 'Lorem impsum dolor?'}
     ];
 
     $scope.send = function() {

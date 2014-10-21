@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    form(action='/login', method='post')
+        div
+            label Username:
+            input(type='text', name='username')
+        div
+            label Password:
+            input(type='password', name='password')
+        div
+            input(type='submit', value='Log In')
+
+    h3 Quick login
+    ul
+        li
+            form(action='/login', method='post')
+                input(type='hidden', name='username', value='a')
+                input(type='hidden', name='password', value='a')
+                input(type='submit', value='Log In user a')
+
+        li
+            form(action='/login', method='post')
+                input(type='hidden', name='username', value='a1')
+                input(type='hidden', name='password', value='a')
+                input(type='submit', value='Log In user a1')
+
+        li
+            form(action='/login', method='post')
+                input(type='hidden', name='username', value='a2')
+                input(type='hidden', name='password', value='a')
+                input(type='submit', value='Log In user a2')
