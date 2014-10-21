@@ -30,9 +30,16 @@ html(ng-app='pardonApp')
                         span.icon-bar
                         span.icon-bar
                     a.navbar-brand(href='/') Pardon
+                .collapse.navbar-collapse.navbar-left
+                    ul.nav.navbar-nav
+                        li
+                            a(href='/') Chat
+
                 .collapse.navbar-collapse.navbar-right
                     ul.nav.navbar-nav
                         li
                             a(href='/login') Login
+                        li
+                            a(href='/logout') Logout
 
         block content
