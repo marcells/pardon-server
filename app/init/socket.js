@@ -10,7 +10,9 @@ module.exports.init = function (server, sessionMiddleware) {
     });
 
     io.use(function (socket, next) {
-        if (socket.request.session && socket.request.session.passport) {
+        if (socket.request.session 
+            && socket.request.session.passport 
+            && socket.request.session.passport.user) {
             socket.request.user = socket.request.session.passport.user;
             socket.isAuthenticated = true;
         }
