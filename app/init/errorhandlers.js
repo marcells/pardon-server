@@ -1,4 +1,4 @@
-module.exports.boot = function (app) {
+module.exports.register = function (app) {
     app.use(function(req, res, next) {
         var err = new Error('Not Found');
         err.status = 404;

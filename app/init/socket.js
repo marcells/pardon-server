@@ -1,14 +1,28 @@
-module.exports.boot = function (app) {
-    var debug = require('debug')('app'),
-        server = require('http').Server(app),
-        io = require('socket.io')(server);
+var socketIo = require('socket.io');
 
+module.exports.boot = function (server, sessionMiddleware) {
+    var io = socketIo(server);
+
+    // middlewares
+    io.use(function (socket, next) {
+        sessionMiddleware(socket.request, {}, next);
+    });
+
+    io.use(function (socket, next) {
+        if (socket.request.session && socket.request.session.passport) {
+            socket.request.user = socket.request.session.passport.user;
+        }
+
+        next();
+    });
+
+    // messages
     io.on('connection', function (socket) {
         socket.on('send', function (data) {
-            if (app.locals.user && app.locals.user.userName)
+            if (socket.request.user && socket.request.user.userName)
             {
                 var outgoing = {
-                    user: app.locals.user.userName,
+                    user: socket.request.user.userName,
                     message: data.message
                 };
 
@@ -20,9 +34,5 @@ module.exports.boot = function (app) {
                 });
             }
         });
-    });
-
-    server.listen(app.get('port'), function() {
-        debug('Express server listening on port ' + server.address().port);
     });
 };
