@@ -16,5 +16,8 @@
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.1.3",
     "socket.io": "^1.1.0"
+  },
+  "scripts" : {
+    "start" : "DEBUG=app forever -w app/app.js"
   }
 }
