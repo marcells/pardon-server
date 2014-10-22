@@ -1,7 +1,8 @@
-var LocalStrategy = require('passport-local').Strategy,
+var passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
     usersRepo = require('../users');
 
-module.exports.boot = function (passport) {
+module.exports.configure = function () {
     passport.use(new LocalStrategy(
         function(username, password, done) {
             usersRepo.findOne(username, function(err, user) {

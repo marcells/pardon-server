@@ -1,6 +1,6 @@
 var socketIo = require('socket.io');
 
-module.exports.boot = function (server, sessionMiddleware) {
+module.exports.init = function (server, sessionMiddleware) {
     var io = socketIo(server);
 
     // middlewares

@@ -11,9 +11,9 @@ var path = require('path'),
     passportConfig = require('./passport');
 
 // passport config
-passportConfig.boot(passport);
+passportConfig.configure();
 
-module.exports.boot = function (app, sessionMiddleware) {
+module.exports.init = function (app, sessionMiddleware) {
 	// express config
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, '..', 'views'));
@@ -37,6 +37,6 @@ module.exports.boot = function (app, sessionMiddleware) {
         next();
     });
 
-    routes.register(app, passport);
+    routes.register(app);
     errorhandlers.register(app);
 };

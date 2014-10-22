@@ -1,6 +1,7 @@
-var routes = require('../routes/index');
+var passport = require('passport'),
+	routes = require('../routes/index');
 
-module.exports.register = function (app, passport) {
+module.exports.register = function (app) {
     app.use('/', routes);
     
     app.post('/login',

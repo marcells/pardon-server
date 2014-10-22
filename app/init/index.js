@@ -15,9 +15,9 @@ var sessionMiddleware = session({
 });
 
 module.exports.express = function (app) {
-    express.boot(app, sessionMiddleware);
+    express.init(app, sessionMiddleware);
 };
 
 module.exports.socket = function (server) {
-    socket.boot(server, sessionMiddleware);
+    socket.init(server, sessionMiddleware);
 };
