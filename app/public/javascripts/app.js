@@ -39,21 +39,44 @@ pardonApp.directive('elastic', [
 pardonApp.controller('ChatController', function ($scope) {
     var that = this;
 
+    that.messages = [];
+
     var socket = io.connect('http://localhost:3000');
     
-    socket.on('receive', function (data) {
+    socket.on('received', function (data) {
         $scope.$apply(function () {
-            that.messages.push({ 
-                user : data.user,
-                message : data.message
+            that.messages.push({
+                _id: data._id,
+                date: data.date,
+                user: data.user,
+                message: data.message
             });
         });
     });
 
-    that.messages = [
-        {'user': 'User 1', 'message': 'Lorem impsum...'},
-        {'user': 'User 2', 'message': 'Lorem impsum dolor?'}
-    ];
+    socket.on('messagesLoaded', function (data) {
+        $scope.$apply(function () {
+            that.messages = data.messages;
+        });
+    });
+
+    socket.on('notLoggedIn', function (data) {
+        $scope.$apply(function () {
+            that.messages.push({
+                user: 'System',
+                message: 'Message not sent! You are not logged in!'
+            });
+        });
+    });
+
+    socket.on('errorOccured', function (data) {
+        $scope.$apply(function () {
+            that.messages.push({
+                user: 'System',
+                message: 'Message not sent! Some error occured!'
+            });
+        });
+    });
 
     $scope.send = function() {
         socket.emit('send', { message: that.message });
