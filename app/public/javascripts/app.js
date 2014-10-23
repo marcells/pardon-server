@@ -41,7 +41,7 @@ pardonApp.controller('ChatController', function ($scope) {
 
     that.messages = [];
 
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect();
     
     socket.on('received', function (data) {
         $scope.$apply(function () {

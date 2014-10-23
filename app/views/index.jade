@@ -16,5 +16,8 @@ block content
         .footer.navbar-default.navbar-fixed-bottom
             .container-fluid
                 .row
-                    .col-xs-12
-                        textarea(elastic, ng-model='chat.message', pardon-enter='send()', placeholder="Write message and press Ctrl+Enter to send...")
+                    .col-xs-9.col-sm-10.col-md-11
+                        textarea(elastic, ng-model='chat.message', pardon-enter='send()', placeholder="Press Ctrl+Enter to send...")
+                    .col-xs-3.col-sm-2.col-md-1
+                        .text-center
+                            button.btn.btn-default(ng-click='send()') Send
