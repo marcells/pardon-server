@@ -15,3 +15,7 @@ body {
 div > textarea {
 	margin-top: 7px;
 }
+
+button {
+	-ms-touch-action: none;
+}

@@ -95,5 +95,6 @@ $(window).resize(function() {
 });
 
 $(function () {
+    FastClick.attach(document.body);
     $('textarea').focus();
 });
