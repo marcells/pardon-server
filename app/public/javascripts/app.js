@@ -1,5 +1,5 @@
 
-var pardonApp = angular.module('pardonApp', []);
+var pardonApp = angular.module('pardonApp', ['luegg.directives']);
 
 pardonApp.directive('pardonEnter', function () {
     return function (scope, element, attrs) {
@@ -63,6 +63,7 @@ pardonApp.controller('ChatController', function ($scope) {
     socket.on('notLoggedIn', function (data) {
         $scope.$apply(function () {
             that.messages.push({
+                date: data.date,
                 user: 'System',
                 message: 'Message not sent! You are not logged in!'
             });
@@ -72,6 +73,7 @@ pardonApp.controller('ChatController', function ($scope) {
     socket.on('errorOccured', function (data) {
         $scope.$apply(function () {
             that.messages.push({
+                date: data.date,
                 user: 'System',
                 message: 'Message not sent! Some error occured!'
             });

@@ -6,12 +6,12 @@ block scripts
 
 block content
     div(ng-controller='ChatController as chat')
-        .container-fluid
-            .row
-                .col-xs-12(ng-repeat='message in chat.messages')
-                    .row
-                        .col-xs-4 {{message.user}}
-                        .col-xs-8 {{message.message}}
+        .container-fluid(ng-repeat='message in chat.messages')
+            div
+                span: small {{message.user}} @ {{message.date | date: 'HH:mm:ss'}}
+                br
+                span {{message.message}}
+                hr
 
         .footer.navbar-default.navbar-fixed-bottom
             .container-fluid

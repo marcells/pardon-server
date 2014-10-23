@@ -40,13 +40,17 @@ module.exports.init = function (server, sessionMiddleware) {
 
                 chat.addMessage(outgoing, function (err, message) {
                     if(err) {
-                        socket.emit('errorOccured', {});
+                        socket.emit('errorOccured', {
+                            date: new Date()
+                        });
                     } else {
                         io.emit('received', message);
                     }
                 });
             } else {
-                socket.emit('notLoggedIn', {});
+                socket.emit('notLoggedIn', {
+                    date: new Date()
+                });
             }
         });
     });
