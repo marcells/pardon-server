@@ -14,12 +14,12 @@ module.exports.init = function (server, sessionMiddleware) {
             && socket.request.session.passport 
             && socket.request.session.passport.user) {
             socket.isAuthenticated = true;
-            socket.request.user = socket.request.session.passport.user;
+            socket.user = socket.request.session.passport.user;
 
             socket.join('global');
         } else {
             socket.isAuthenticated = false;
-            socket.request.user = undefined;
+            socket.user = undefined;
 
             socket.leave('global');
         }
@@ -30,18 +30,30 @@ module.exports.init = function (server, sessionMiddleware) {
     // messages
     io.on('connection', function (socket) {
         if (socket.isAuthenticated) {
+            // load all chat messages
             chat.getLatestMessages(function (err, latestMessages) {
                 socket.emit('messagesLoaded', {
                     messages: latestMessages
                 });
             });
+
+            // users in the global room
+            var userNamesInGlobalRoom = [];
+
+            var clientsInGlobalRoom = io.sockets.adapter.rooms['global'];
+            for(var clientId in clientsInGlobalRoom) {
+                var socket = io.sockets.connected[clientId];
+                userNamesInGlobalRoom.push(socket.user.userName);
+            }
+
+            socket.emit('usersLoaded', userNamesInGlobalRoom);
         }
 
         socket.on('send', function (data) {
             if (socket.isAuthenticated) {
                 var outgoing = {
                     date: new Date(),
-                    user: socket.request.user.userName,
+                    user: socket.user.userName,
                     message: data.message
                 };
 

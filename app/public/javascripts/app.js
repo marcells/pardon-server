@@ -40,6 +40,7 @@ pardonApp.controller('ChatController', function ($scope) {
     var that = this;
 
     that.messages = [];
+    that.onlineUsers = [];
 
     var socket = io.connect();
     
@@ -57,6 +58,12 @@ pardonApp.controller('ChatController', function ($scope) {
     socket.on('messagesLoaded', function (data) {
         $scope.$apply(function () {
             that.messages = data.messages;
+        });
+    });
+
+    socket.on('usersLoaded', function (data) {
+        $scope.$apply(function () {
+            that.onlineUsers = data;
         });
     });
 
