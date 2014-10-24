@@ -1,7 +1,8 @@
 var path = require('path'),
     Datastore = require('nedb'),
+    config = require('../config'),
     db = new Datastore({
-        filename: path.join(__dirname, '..', 'data', 'chat.nedb'),
+        filename: config.chatStoreLocation,
         autoload: true 
     });
 

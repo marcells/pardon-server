@@ -8,25 +8,26 @@ var path = require('path'),
     flash = require('connect-flash'),
     errorhandlers = require('./errorhandlers'),
     routes = require('./routes'),
-    passportConfig = require('./passport');
+    passportConfig = require('./passport'),
+    config = require('../config');
 
 // passport config
 passportConfig.configure();
 
 module.exports.init = function (app, sessionMiddleware) {
 	// express config
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', path.join(__dirname, '..', 'views'));
+    app.set('port', config.port);
+    app.set('views', config.viewsLocation);
     app.set('view engine', 'jade');
     app.locals.pretty = true;
 
     // express middlewares
-    app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')));
+    app.use(favicon(config.faviconLocation));
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, '..', 'public')));
+    app.use(express.static(config.publicLocation));
     app.use(sessionMiddleware);
     app.use(flash());
     app.use(passport.initialize());

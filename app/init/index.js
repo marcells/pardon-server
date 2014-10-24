@@ -2,12 +2,13 @@ var path = require('path'),
     session = require('express-session'),
     socket = require('./socket'),
     express = require('./express'),
+    config = require('../config'),
     NeDBSessionStore = require('../services/nedb-session-store')(session);
 
 // session config
 var sessionMiddleware = session({
     store: new NeDBSessionStore({
-        filename: path.join(__dirname, '..', '..', 'data', 'session.nedb')
+        filename: config.sessionStoreLocation
     }),
     secret: 'keyboard cat',
     saveUninitialized: true,

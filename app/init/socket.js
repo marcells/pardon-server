@@ -1,5 +1,5 @@
 var socketIo = require('socket.io'),
-    chat = require('../chat.js');
+    chat = require('../repos/chat.js');
 
 module.exports.init = function (server, sessionMiddleware) {
     var io = socketIo(server);
