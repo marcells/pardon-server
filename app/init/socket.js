@@ -13,8 +13,15 @@ module.exports.init = function (server, sessionMiddleware) {
         if (socket.request.session 
             && socket.request.session.passport 
             && socket.request.session.passport.user) {
-            socket.request.user = socket.request.session.passport.user;
             socket.isAuthenticated = true;
+            socket.request.user = socket.request.session.passport.user;
+
+            socket.join('global');
+        } else {
+            socket.isAuthenticated = false;
+            socket.request.user = undefined;
+
+            socket.leave('global');
         }
 
         next();
@@ -44,7 +51,7 @@ module.exports.init = function (server, sessionMiddleware) {
                             date: new Date()
                         });
                     } else {
-                        io.emit('received', message);
+                        io.to('global').emit('received', message);
                     }
                 });
             } else {
