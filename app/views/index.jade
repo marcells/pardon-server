@@ -6,12 +6,23 @@ block scripts
 
 block content
     div(ng-controller='ChatController as chat')
-        .container-fluid(ng-repeat='message in chat.messages')
-            div
-                span: small {{message.user}} @ {{message.date | date: 'HH:mm:ss'}}
-                br
-                span {{message.message}}
-                hr
+        .container-fluid
+            .row
+                .col-xs-8
+                    .row(ng-repeat='message in chat.messages')
+                        div
+                            span: small {{message.user}} @ {{message.date | date: 'HH:mm:ss'}}
+                            br
+                            span {{message.message}}
+                            hr
+                .col-xs-4
+                    .row
+                        .col-xs-12(style='position: fixed;')
+                            .panel.panel-default(ng-show='chat.onlineUsers.length > 0')
+                                .panel-heading
+                                    span Online Users
+                                ul.list-group(ng-repeat='user in chat.onlineUsers')
+                                    li.list-group-item {{user}}
 
         .footer.navbar-default.navbar-fixed-bottom
             .container-fluid
