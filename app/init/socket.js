@@ -27,6 +27,18 @@ module.exports.init = function (server, sessionMiddleware) {
         next();
     });
 
+    function getUsersInGlobalRoom() {
+        var userNamesInGlobalRoom = [];
+
+        var clientsInGlobalRoom = io.sockets.adapter.rooms['global'];
+        for(var clientId in clientsInGlobalRoom) {
+            var socket = io.sockets.connected[clientId];
+            userNamesInGlobalRoom.push(socket.user.userName);
+        }
+
+        return userNamesInGlobalRoom;
+    }
+
     // messages
     io.on('connection', function (socket) {
         if (socket.isAuthenticated) {
@@ -37,16 +49,7 @@ module.exports.init = function (server, sessionMiddleware) {
                 });
             });
 
-            // users in the global room
-            var userNamesInGlobalRoom = [];
-
-            var clientsInGlobalRoom = io.sockets.adapter.rooms['global'];
-            for(var clientId in clientsInGlobalRoom) {
-                var socket = io.sockets.connected[clientId];
-                userNamesInGlobalRoom.push(socket.user.userName);
-            }
-
-            socket.emit('usersLoaded', userNamesInGlobalRoom);
+            io.to('global').emit('usersLoaded', getUsersInGlobalRoom());
         }
 
         socket.on('send', function (data) {
@@ -71,6 +74,10 @@ module.exports.init = function (server, sessionMiddleware) {
                     date: new Date()
                 });
             }
+        });
+
+        socket.on('disconnect', function () {
+            io.to('global').emit('usersLoaded', getUsersInGlobalRoom());
         });
     });
 };
